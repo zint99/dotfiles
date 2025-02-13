@@ -6,6 +6,9 @@ personal dotfiles
 - Internet Needed: x-cmd
 - Windows WSL2: Alacritty + Starship
 
+## Vim
+- [vim-for-coding](https://github.com/Leptune/vim-for-coding)
+
 ## CLI Tools
 - x-cmd is enough if available.
 - zoxied + fzf
