@@ -1,0 +1,71 @@
+// =========================================================
+// Zellij Configuration - Best Practice for WSL2
+// =========================================================
+
+// 1. 视觉设置
+// ---------------------------------------------------------
+// 使用 compact 布局（隐藏顶部巨大的状态栏，只留下一条细线）
+default_layout "compact"
+
+// 🚫 关闭面板边框
+// 这是“沉浸式”体验的关键。去掉边框后，代码窗口之间只有一条细线。
+// 如果你刚开始不习惯，可以改为 true，但熟练后建议 false
+pane_frames false
+
+// 主题：配合你的 WezTerm Catppuccin Mocha
+theme "catppuccin-mocha"
+
+// 2. 交互行为
+// ---------------------------------------------------------
+// 鼠标支持：允许用鼠标点击切换面板、拖拽调整大小
+mouse_mode true
+
+// 剪贴板同步 (WSL 核心配置)
+// 确保选中的文本自动进入 Windows 剪贴板
+// WezTerm 其实自带 OSC52 支持，但显式指定 clip.exe 更稳健
+copy_command "clip.exe"
+
+// 复制选中文本时自动清除选中状态 (类似 Windows 习惯)
+copy_on_select false
+
+// 3. 快捷键映射 (Keybindings)
+// ---------------------------------------------------------
+// 这里我们修改 "normal" 模式，加入直通快捷键
+// 让你不需要按 Ctrl+p 就能切换面板
+keybinds {
+    normal {
+        // --- 面板导航 (Alt + Vim方向) ---
+        bind "Alt h" { MoveFocus "Left"; }
+        bind "Alt l" { MoveFocus "Right"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
+
+        // --- 面板操作 ---
+        // Alt + n: 向右新建面板
+        bind "Alt n" { NewPane "Right"; }
+        // Alt + d: 向下新建面板 (Down)
+        bind "Alt d" { NewPane "Down"; }
+        // Alt + f: 全屏当前面板 (Focus/Fullscreen)
+        bind "Alt f" { ToggleFocusFullscreen; }
+        // Alt + w: 关闭当前面板 (Window close)
+        bind "Alt w" { CloseFocus; }
+
+        // --- 标签页操作 ---
+        // Alt + t: 新建标签页
+        bind "Alt t" { NewTab; }
+        // Alt + [/]: 左右切换标签
+        bind "Alt [" { GoToPreviousTab; }
+        bind "Alt ]" { GoToNextTab; }
+        // Alt + 1~9: 直接跳转标签
+        bind "Alt 1" { GoToTab 1; }
+        bind "Alt 2" { GoToTab 2; }
+        bind "Alt 3" { GoToTab 3; }
+        bind "Alt 4" { GoToTab 4; }
+    }
+    
+    // 锁定模式 (Ctrl + g)
+    // 防止误触，或者当你需要嵌套 SSH 远程服务器的 Zellij/Tmux 时使用
+    locked {
+        bind "Ctrl g" { SwitchToMode "Normal"; }
+    }
+}
